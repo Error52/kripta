@@ -208,8 +208,13 @@ function setupMoviePage() {
     if (overlay) overlay.hidden = true;
   });
 
-  registerDialog.addEventListener('close', () => {
-    if (registerDialog.returnValue !== 'submit' || !registerForm) return;
+
+  document.querySelectorAll('[data-close-dialog]').forEach((btn) => {
+    btn.addEventListener('click', () => btn.closest('dialog')?.close());
+  });
+
+  registerForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
 
     const formData = new FormData(registerForm);
     const username = normalizeInput(formData.get('username'));
@@ -230,10 +235,11 @@ function setupMoviePage() {
     saveAccounts(accounts);
     alert('Аккаунт создан. Теперь можно войти.');
     registerForm.reset();
+    registerDialog.close();
   });
 
-  loginDialog.addEventListener('close', () => {
-    if (loginDialog.returnValue !== 'submit' || !loginForm) return;
+  loginForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
 
     const formData = new FormData(loginForm);
     const username = normalizeInput(formData.get('username'));
@@ -254,6 +260,7 @@ function setupMoviePage() {
     setCurrentUser(account);
     renderAuthStatus();
     loginForm.reset();
+    loginDialog.close();
   });
 
   document.querySelectorAll('.comment-form').forEach((form) => {
