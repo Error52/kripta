@@ -365,3 +365,26 @@ dialog {
   font-weight: 800;
   color: #67ff9f;
 }
+
+.auth-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  background: rgba(3, 4, 8, 0.94);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.auth-gate-panel {
+  width: min(560px, 95vw);
+  background: #131722;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.auth-gate-panel p {
+  color: #bcc1d8;
+}

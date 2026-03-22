@@ -55,13 +55,16 @@ function renderAuthStatus() {
 
   const user = getCurrentUser();
   const overlay = document.getElementById('adminFlagOverlay');
+  const gate = document.getElementById('authGate');
 
   if (user) {
     status.textContent = `Ты вошёл как ${user.username}${user.role === 'admin' ? ' (admin)' : ''}`;
     if (overlay && user.role === 'admin') overlay.hidden = false;
+    if (gate) gate.hidden = true;
   } else {
     status.textContent = 'Ты не авторизован. Войди, чтобы оставлять комментарии.';
     if (overlay) overlay.hidden = true;
+    if (gate) gate.hidden = false;
   }
 }
 
@@ -134,6 +137,8 @@ function setupMoviePage() {
 
   openRegister?.addEventListener('click', () => registerDialog.showModal());
   openLogin?.addEventListener('click', () => loginDialog.showModal());
+  document.getElementById('gateRegister')?.addEventListener('click', () => registerDialog.showModal());
+  document.getElementById('gateLogin')?.addEventListener('click', () => loginDialog.showModal());
 
   logoutBtn?.addEventListener('click', () => {
     localStorage.removeItem(CURRENT_USER_KEY);
