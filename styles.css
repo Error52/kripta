@@ -388,3 +388,9 @@ dialog {
 .auth-gate-panel p {
   color: #bcc1d8;
 }
+
+
+.flag-overlay[hidden],
+.auth-gate[hidden] {
+  display: none !important;
+}
