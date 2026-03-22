@@ -11,10 +11,7 @@ if (openButton && dialog) {
   });
 }
 
-const ACCOUNTS_KEY = 'kino_accounts';
-const CURRENT_USER_KEY = 'kino_current_user';
-const COMMENTS_KEY = 'kino_comments';
-
+const DATABASE_KEY = 'kino_database_v1';
 const SQLI_PATTERN = /(--|;|\/\*|\*\/|\b(OR|AND|UNION|SELECT|INSERT|UPDATE|DELETE|DROP)\b)/i;
 
 function normalizeInput(value) {
@@ -32,21 +29,44 @@ function isSafeText(value, maxLength = 250) {
   return true;
 }
 
+function readDb() {
+  const initial = {
+    users: [{ username: 'kinoadmin', password: 'passAdminKino', role: 'admin' }],
+    currentUser: null,
+    comments: {}
+  };
 
-function seedAdmin() {
-  const accounts = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]');
-  if (!accounts.some((u) => u.username === 'kinoadmin')) {
-    accounts.push({ username: 'kinoadmin', password: 'passAdminKino', role: 'admin' });
-    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
+  const raw = localStorage.getItem(DATABASE_KEY);
+  if (!raw) {
+    localStorage.setItem(DATABASE_KEY, JSON.stringify(initial));
+    return initial;
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed.users || !parsed.comments) return initial;
+    if (!parsed.users.some((u) => u.username === 'kinoadmin')) {
+      parsed.users.push({ username: 'kinoadmin', password: 'passAdminKino', role: 'admin' });
+    }
+    return parsed;
+  } catch {
+    localStorage.setItem(DATABASE_KEY, JSON.stringify(initial));
+    return initial;
   }
 }
 
+function writeDb(db) {
+  localStorage.setItem(DATABASE_KEY, JSON.stringify(db));
+}
+
 function getCurrentUser() {
-  return JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || 'null');
+  return readDb().currentUser;
 }
 
 function setCurrentUser(user) {
-  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+  const db = readDb();
+  db.currentUser = user;
+  writeDb(db);
 }
 
 function renderAuthStatus() {
@@ -69,19 +89,23 @@ function renderAuthStatus() {
 }
 
 function getAccounts() {
-  return JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]');
+  return readDb().users;
 }
 
 function saveAccounts(accounts) {
-  localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
+  const db = readDb();
+  db.users = accounts;
+  writeDb(db);
 }
 
 function getComments() {
-  return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}');
+  return readDb().comments;
 }
 
 function saveComments(comments) {
-  localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments));
+  const db = readDb();
+  db.comments = comments;
+  writeDb(db);
 }
 
 function renderComments() {
@@ -92,7 +116,6 @@ function renderComments() {
     const comments = allComments[movieId] || [];
 
     if (!container) return;
-
     container.innerHTML = '';
 
     if (!comments.length) {
@@ -131,7 +154,7 @@ function setupMoviePage() {
 
   if (!registerDialog) return;
 
-  seedAdmin();
+  readDb();
   renderAuthStatus();
   renderComments();
 
@@ -141,7 +164,7 @@ function setupMoviePage() {
   document.getElementById('gateLogin')?.addEventListener('click', () => loginDialog.showModal());
 
   logoutBtn?.addEventListener('click', () => {
-    localStorage.removeItem(CURRENT_USER_KEY);
+    setCurrentUser(null);
     renderAuthStatus();
   });
 
