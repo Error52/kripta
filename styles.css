@@ -394,3 +394,18 @@ dialog {
 .auth-gate[hidden] {
   display: none !important;
 }
+
+.search-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-form input {
+  background: #121212;
+  color: #fff;
+  border: 1px solid #2e2e2e;
+  border-radius: 999px;
+  padding: 10px 14px;
+  min-width: 220px;
+}

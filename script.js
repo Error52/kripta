@@ -143,6 +143,40 @@ function renderComments() {
   });
 }
 
+
+function setupSearch() {
+  const form = document.getElementById('searchForm');
+  const input = document.getElementById('movieSearch');
+  if (!form || !input) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const initialQuery = normalizeInput(params.get('search'));
+  input.value = initialQuery;
+
+  const applyFilter = (query) => {
+    const q = normalizeInput(query).toLowerCase();
+    document.querySelectorAll('.movie-card').forEach((card) => {
+      const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+      card.hidden = q ? !title.includes(q) : false;
+    });
+  };
+
+  applyFilter(initialQuery);
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const query = normalizeInput(input.value);
+    const url = new URL(window.location.href);
+    if (query) {
+      url.searchParams.set('search', query);
+    } else {
+      url.searchParams.delete('search');
+    }
+    window.history.replaceState({}, '', url);
+    applyFilter(query);
+  });
+}
+
 function setupMoviePage() {
   const registerDialog = document.getElementById('registerDialog');
   const loginDialog = document.getElementById('loginDialog');
@@ -157,6 +191,7 @@ function setupMoviePage() {
   readDb();
   renderAuthStatus();
   renderComments();
+  setupSearch();
 
   openRegister?.addEventListener('click', () => registerDialog.showModal());
   openLogin?.addEventListener('click', () => loginDialog.showModal());
@@ -246,6 +281,7 @@ function setupMoviePage() {
       saveComments(comments);
       form.reset();
       renderComments();
+  setupSearch();
     });
   });
 }
