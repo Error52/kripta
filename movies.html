@@ -10,23 +10,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <header class="topbar">
-    <a class="brand" href="index.html">BUG BOUNTY</a>
+<body class="kp-body">
+  <div class="drm-bar">
+    Для воспроизведения некоторых аудио или видео на этой странице нужно включить DRM.
+    <button>Включить DRM</button>
+  </div>
+
+  <header class="topbar kp-topbar">
+    <a class="brand" href="index.html">MOVIESCOPE</a>
     <nav>
       <a href="#top">Главная</a>
-      <a href="#catalog">Фильмы</a>
-      <a href="#popular">Популярное</a>
+      <a href="#continue">Продолжить просмотр</a>
+      <a href="#interest">По интересам</a>
     </nav>
   </header>
 
-  <main class="movie-main" id="top">
-    <section class="movie-hero card">
-      <p class="eyebrow">MovieScope</p>
-      <h1>Смотри. Оценивай. Ищи баги.</h1>
-      <p class="lead">Демо-копия кинопоиск-подобного сайта для тестирования уязвимостей.</p>
-      <div class="admin-box">
-        <strong>Тестовый админ:</strong> kinoadmin / passAdminKino
+  <main id="top" class="kp-main">
+    <section class="kp-hero card">
+      <h1>Сериалы и фильмы</h1>
+      <p class="lead">Витрина в стиле онлайн-кинотеатра для тестирования интерфейса.</p>
+      <div class="hero-dots"><span></span><span></span><span></span><span></span></div>
+    </section>
+
+    <section class="kp-section">
+      <h2>Витрины стримингов</h2>
+      <div class="chip-row">
+        <span class="chip">Амедиатека</span>
+        <span class="chip">START</span>
+        <span class="chip">Смотрим</span>
+        <span class="chip">Первый канал</span>
+        <span class="chip">НТВ</span>
+        <span class="chip">ТНТ</span>
       </div>
     </section>
 
@@ -40,70 +54,62 @@
       </div>
     </section>
 
-    <section class="grid" id="catalog">
-      <article class="movie-card" data-movie-id="shadow-orbit">
-        <h3>Тень Орбиты</h3>
-        <p>Фантастика • 8.1</p>
-        <div class="comments"></div>
-        <form class="comment-form">
-          <input name="comment" placeholder="Оставить комментарий" required />
-          <button class="btn primary" type="submit">Отправить</button>
-        </form>
-      </article>
-      <article class="movie-card" data-movie-id="cold-pulse">
-        <h3>Холодный Пульс</h3>
-        <p>Триллер • 7.4</p>
-        <div class="comments"></div>
-        <form class="comment-form">
-          <input name="comment" placeholder="Оставить комментарий" required />
-          <button class="btn primary" type="submit">Отправить</button>
-        </form>
-      </article>
-      <article class="movie-card" data-movie-id="wind-salt">
-        <h3>Соль Ветра</h3>
-        <p>Драма • 8.7</p>
-        <div class="comments"></div>
-        <form class="comment-form">
-          <input name="comment" placeholder="Оставить комментарий" required />
-          <button class="btn primary" type="submit">Отправить</button>
-        </form>
-      </article>
-      <article class="movie-card" data-movie-id="eclipse-code">
-        <h3>Код Затмения</h3>
-        <p>Детектив • 7.9</p>
-        <div class="comments"></div>
-        <form class="comment-form">
-          <input name="comment" placeholder="Оставить комментарий" required />
-          <button class="btn primary" type="submit">Отправить</button>
-        </form>
-      </article>
-      <article class="movie-card" data-movie-id="zero-city">
-        <h3>Город Нулей</h3>
-        <p>Киберпанк • 8.3</p>
-        <div class="comments"></div>
-        <form class="comment-form">
-          <input name="comment" placeholder="Оставить комментарий" required />
-          <button class="btn primary" type="submit">Отправить</button>
-        </form>
-      </article>
-      <article class="movie-card" data-movie-id="shard-legend">
-        <h3>Легенда Осколков</h3>
-        <p>Приключения • 7.8</p>
-        <div class="comments"></div>
-        <form class="comment-form">
-          <input name="comment" placeholder="Оставить комментарий" required />
-          <button class="btn primary" type="submit">Отправить</button>
-        </form>
-      </article>
+    <section class="kp-section" id="continue">
+      <h2>Продолжить просмотр</h2>
+      <div class="poster-row" id="catalog">
+        <article class="poster-card movie-card" data-movie-id="shadow-orbit">
+          <div class="poster-cover cover-1"></div>
+          <h3>Ландыши</h3>
+          <p>1 сезон, 8 серия</p>
+          <div class="comments"></div>
+          <form class="comment-form">
+            <input name="comment" placeholder="Оставить комментарий" required />
+            <button class="btn primary" type="submit">Отправить</button>
+          </form>
+        </article>
+
+        <article class="poster-card movie-card" data-movie-id="cold-pulse">
+          <div class="poster-cover cover-2"></div>
+          <h3>Молодёжка. Новая смена</h3>
+          <p>1 сезон, 4 серия</p>
+          <div class="comments"></div>
+          <form class="comment-form">
+            <input name="comment" placeholder="Оставить комментарий" required />
+            <button class="btn primary" type="submit">Отправить</button>
+          </form>
+        </article>
+
+        <article class="poster-card movie-card" data-movie-id="wind-salt">
+          <div class="poster-cover cover-3"></div>
+          <h3>Вниз</h3>
+          <p>1 ч 31 мин</p>
+          <div class="comments"></div>
+          <form class="comment-form">
+            <input name="comment" placeholder="Оставить комментарий" required />
+            <button class="btn primary" type="submit">Отправить</button>
+          </form>
+        </article>
+
+        <article class="poster-card movie-card" data-movie-id="eclipse-code">
+          <div class="poster-cover cover-4"></div>
+          <h3>Папины дочки</h3>
+          <p>1 ч 31 мин</p>
+          <div class="comments"></div>
+          <form class="comment-form">
+            <input name="comment" placeholder="Оставить комментарий" required />
+            <button class="btn primary" type="submit">Отправить</button>
+          </form>
+        </article>
+      </div>
     </section>
 
-    <section class="card" id="popular">
-      <h2>Популярные запросы</h2>
-      <div class="tags">
-        <span>боевик 2026</span>
-        <span>лучшие сериалы</span>
-        <span>фильмы про космос</span>
-        <span>детективы</span>
+    <section class="kp-section" id="interest">
+      <h2>Сериалы на основе ваших интересов</h2>
+      <div class="poster-row mini-row">
+        <div class="mini-poster cover-5"></div>
+        <div class="mini-poster cover-6"></div>
+        <div class="mini-poster cover-7"></div>
+        <div class="mini-poster cover-8"></div>
       </div>
     </section>
   </main>

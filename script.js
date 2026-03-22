@@ -6,7 +6,7 @@ if (openButton && dialog) {
 
   dialog.addEventListener('close', () => {
     if (dialog.returnValue === 'submit') {
-      alert('Отчёт отправлен на модерацию. Если PoC валиден — ты получишь flag{kin0_3z_f0r_bug_bounty}.');
+      alert('Отчёт отправлен на модерацию. Награда будет выдана после проверки PoC.');
     }
   });
 }
@@ -30,14 +30,6 @@ function isSafeText(value, maxLength = 250) {
   if (!normalized || normalized.length > maxLength) return false;
   if (containsSqlPayload(normalized)) return false;
   return true;
-}
-
-function seedAdmin() {
-  const accounts = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]');
-  if (!accounts.some((u) => u.username === 'kinoadmin')) {
-    accounts.push({ username: 'kinoadmin', password: 'passAdminKino', role: 'admin' });
-    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
-  }
 }
 
 function getCurrentUser() {
@@ -123,7 +115,6 @@ function setupMoviePage() {
 
   if (!registerDialog) return;
 
-  seedAdmin();
   renderAuthStatus();
   renderComments();
 

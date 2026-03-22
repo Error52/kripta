@@ -172,3 +172,118 @@ dialog {
   margin-top: 8px;
   font-size: 14px;
 }
+
+.kp-body {
+  background: #050505;
+}
+
+.drm-bar {
+  background: #3e3f4d;
+  color: #d4d7e8;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.drm-bar button {
+  background: #595a68;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 7px 12px;
+}
+
+.kp-topbar {
+  position: static;
+  background: rgba(0,0,0,0.85);
+}
+
+.kp-main {
+  padding: 0 40px 40px;
+  display: grid;
+  gap: 28px;
+}
+
+.kp-hero {
+  background: linear-gradient(180deg, rgba(18,41,56,0.75), rgba(0,0,0,0.95));
+  min-height: 180px;
+  display: grid;
+  align-content: end;
+}
+
+.hero-dots { display: flex; gap: 8px; margin-top: 8px; }
+.hero-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+}
+
+.kp-section h2 {
+  margin: 0 0 14px;
+  font-size: 42px;
+}
+
+.chip-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.chip {
+  background: #161616;
+  border: 1px solid #272727;
+  border-radius: 30px;
+  padding: 16px 22px;
+  white-space: nowrap;
+  font-size: 28px;
+}
+
+.poster-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 14px;
+}
+
+.poster-card {
+  background: #111;
+  border: 1px solid #252525;
+  border-radius: 12px;
+  padding: 0 0 12px;
+  overflow: hidden;
+}
+
+.poster-cover {
+  height: 150px;
+  border-bottom: 5px solid #ff5a00;
+}
+
+.cover-1 { background: linear-gradient(120deg, #d1a400, #60432e); }
+.cover-2 { background: linear-gradient(120deg, #0079ad, #0f2d51); }
+.cover-3 { background: linear-gradient(120deg, #c88365, #592f22); }
+.cover-4 { background: linear-gradient(120deg, #6da864, #2a4233); }
+.cover-5 { background: linear-gradient(120deg, #47a6d8, #2f6a99); }
+.cover-6 { background: linear-gradient(120deg, #2988ff, #21405f); }
+.cover-7 { background: linear-gradient(120deg, #3c3c45, #1c1c27); }
+.cover-8 { background: linear-gradient(120deg, #68c167, #355d34); }
+
+.poster-card h3,
+.poster-card p,
+.poster-card .comments,
+.poster-card .comment-form { padding-inline: 10px; }
+
+.poster-card p { color: #aaa; }
+
+.mini-row {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.mini-poster {
+  border-radius: 12px;
+  height: 140px;
+  border: 1px solid #232323;
+}
