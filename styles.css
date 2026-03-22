@@ -287,3 +287,81 @@ dialog {
   height: 140px;
   border: 1px solid #232323;
 }
+
+.cinema-hero {
+  min-height: 88vh;
+  border-radius: 0;
+  margin: 0 -40px;
+  position: relative;
+  background: radial-gradient(circle at 70% 30%, rgba(101, 122, 170, 0.45), rgba(0,0,0,0.8) 60%),
+              linear-gradient(120deg, #0d1e38 0%, #141414 50%, #2a1f2f 100%);
+  overflow: hidden;
+  display: grid;
+  align-items: end;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.75));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: clamp(20px, 6vw, 72px);
+  max-width: 780px;
+}
+
+.hero-brand {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.hero-content h1 {
+  margin: 0 0 16px;
+  font-size: clamp(40px, 7vw, 82px);
+}
+
+.hero-content p {
+  font-size: clamp(20px, 2.2vw, 42px);
+  line-height: 1.2;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.hero-buy {
+  background: #ff6d00;
+  color: #fff;
+}
+
+.flag-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.92);
+  display: grid;
+  place-items: center;
+}
+
+.flag-panel {
+  width: min(900px, 92vw);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 22px;
+  background: #111;
+  text-align: center;
+  padding: 36px;
+}
+
+.flag-value {
+  margin: 20px 0 28px;
+  font-size: clamp(26px, 5vw, 64px);
+  font-weight: 800;
+  color: #67ff9f;
+}

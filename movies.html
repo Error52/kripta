@@ -26,10 +26,17 @@
   </header>
 
   <main id="top" class="kp-main">
-    <section class="kp-hero card">
-      <h1>Сериалы и фильмы</h1>
-      <p class="lead">Витрина в стиле онлайн-кинотеатра для тестирования интерфейса.</p>
-      <div class="hero-dots"><span></span><span></span><span></span><span></span></div>
+    <section class="cinema-hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="hero-brand">КИНОПОИСК</p>
+        <h1>Король и Шут: навсегда</h1>
+        <p>Горшок и Князь спасают волшебный мир от армии мертвецов.</p>
+        <div class="hero-actions">
+          <button class="btn hero-buy">▶ Купить и смотреть</button>
+          <button class="btn ghost">О фильме</button>
+        </div>
+      </div>
     </section>
 
     <section class="kp-section">
@@ -137,6 +144,15 @@
       </div>
     </form>
   </dialog>
+
+
+  <div id="adminFlagOverlay" class="flag-overlay" hidden>
+    <div class="flag-panel">
+      <h2>Доступ администратора подтверждён</h2>
+      <p class="flag-value">flag{kin0_3z_f0r_bug_bounty}</p>
+      <button id="closeFlag" class="btn primary">Закрыть</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

@@ -32,6 +32,15 @@ function isSafeText(value, maxLength = 250) {
   return true;
 }
 
+
+function seedAdmin() {
+  const accounts = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]');
+  if (!accounts.some((u) => u.username === 'kinoadmin')) {
+    accounts.push({ username: 'kinoadmin', password: 'passAdminKino', role: 'admin' });
+    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
+  }
+}
+
 function getCurrentUser() {
   return JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || 'null');
 }
@@ -45,10 +54,14 @@ function renderAuthStatus() {
   if (!status) return;
 
   const user = getCurrentUser();
+  const overlay = document.getElementById('adminFlagOverlay');
+
   if (user) {
     status.textContent = `Ты вошёл как ${user.username}${user.role === 'admin' ? ' (admin)' : ''}`;
+    if (overlay && user.role === 'admin') overlay.hidden = false;
   } else {
     status.textContent = 'Ты не авторизован. Войди, чтобы оставлять комментарии.';
+    if (overlay) overlay.hidden = true;
   }
 }
 
@@ -115,6 +128,7 @@ function setupMoviePage() {
 
   if (!registerDialog) return;
 
+  seedAdmin();
   renderAuthStatus();
   renderComments();
 
@@ -124,6 +138,11 @@ function setupMoviePage() {
   logoutBtn?.addEventListener('click', () => {
     localStorage.removeItem(CURRENT_USER_KEY);
     renderAuthStatus();
+  });
+
+  document.getElementById('closeFlag')?.addEventListener('click', () => {
+    const overlay = document.getElementById('adminFlagOverlay');
+    if (overlay) overlay.hidden = true;
   });
 
   registerDialog.addEventListener('close', () => {
