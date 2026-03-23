@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'" />
+  <title>Bug Bounty Challenge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">BUG BOUNTY</div>
+    <nav>
+      <a href="#program">Программа</a>
+      <a href="#rules">Правила</a>
+      <a href="#reward">Награда</a>
+    </nav>
+  </header>
+
+  <main class="hero-wrap">
+    <section class="hero card" id="program">
+      <p class="eyebrow">Программа безопасности</p>
+      <h1>CTF Bug Bounty: Movie Platform</h1>
+      <p class="lead">
+        Твоя цель — найти критическую уязвимость и приложить корректный отчёт с
+        <strong>подтверждением компрометации тестовой админ-сессии</strong>
+        (без реальных данных). После валидации отчёта ты получишь флаг.
+      </p>
+      <ul class="checklist" id="rules">
+        <li>Только тестовый стенд и тестовые аккаунты.</li>
+        <li>Не атакуй внешние сервисы и реальные учётные записи.</li>
+        <li>В отчёте укажи шаги воспроизведения и PoC.</li>
+      </ul>
+      <div class="actions">
+        <a class="btn primary" href="movies.html">Начать тестировать</a>
+        <button class="btn ghost" id="openReport">Сдать отчёт</button>
+      </div>
+    </section>
+
+    <aside class="info card" id="reward">
+      <h2>Награда</h2>
+      <p>За валидный отчёт с доказательством доступа награда выдаётся после проверки отчёта</p>
+      <small>*Флаг учебный, проект предназначен для CTF/тренировки.</small>
+    </aside>
+  </main>
+
+  <dialog id="reportDialog">
+    <form method="dialog" class="report-form">
+      <h3>Отправка отчёта</h3>
+      <label>
+        Ссылка на отчёт
+        <input type="url" placeholder="https://..." required />
+      </label>
+      <label>
+        Доказательство тестового доступа
+        <textarea rows="4" placeholder="Опиши полученные тестовые креды/токен и шаги воспроизведения" required></textarea>
+      </label>
+      <div class="dialog-actions">
+        <button class="btn ghost" value="cancel">Отмена</button>
+        <button class="btn primary" value="submit">Отправить</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
