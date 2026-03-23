@@ -189,26 +189,29 @@ function setupMoviePage() {
 
   if (!registerDialog) return;
 
-  readDb();
+  const db = readDb();
+  db.currentUser = null;
+  writeDb(db);
   renderAuthStatus();
   renderComments();
   setupSearch();
 
-  document.addEventListener('click', (event) => {
-    const button = event.target.closest('button');
-    if (!button) return;
+  const bindOpen = (id, dialogEl) => {
+    const btn = document.getElementById(id);
+    if (!btn || !dialogEl) return;
+    btn.addEventListener('click', () => {
+      if (!dialogEl.open) dialogEl.showModal();
+    });
+  };
 
-    const dialogId = button.dataset.openDialog;
-    if (dialogId) {
-      const targetDialog = document.getElementById(dialogId);
-      if (targetDialog && !targetDialog.open) targetDialog.showModal();
-      return;
-    }
+  bindOpen('openRegister', registerDialog);
+  bindOpen('openLogin', loginDialog);
+  bindOpen('gateRegister', registerDialog);
+  bindOpen('gateLogin', loginDialog);
 
-    if (button.dataset.action === 'logout') {
-      setCurrentUser(null);
-      renderAuthStatus();
-    }
+  document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    setCurrentUser(null);
+    renderAuthStatus();
   });
 
   document.getElementById('closeFlag')?.addEventListener('click', () => {
