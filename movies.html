@@ -16,8 +16,8 @@
       <h2>Добро пожаловать в MovieScope</h2>
       <p>Перед просмотром войдите или создайте аккаунт.</p>
       <div class="actions">
-        <button class="btn primary" id="gateRegister">Регистрация</button>
-        <button class="btn ghost" id="gateLogin">Вход</button>
+        <button class="btn primary" id="gateRegister" data-open-dialog="registerDialog">Регистрация</button>
+        <button class="btn ghost" id="gateLogin" data-open-dialog="loginDialog">Вход</button>
       </div>
     </div>
   </div>
@@ -70,9 +70,9 @@
       <h2>Аккаунт</h2>
       <p id="authStatus" class="muted"></p>
       <div class="actions">
-        <button class="btn primary" id="openRegister">Создать аккаунт</button>
-        <button class="btn ghost" id="openLogin">Войти</button>
-        <button class="btn ghost" id="logoutBtn">Выйти</button>
+        <button class="btn primary" id="openRegister" data-open-dialog="registerDialog">Создать аккаунт</button>
+        <button class="btn ghost" id="openLogin" data-open-dialog="loginDialog">Войти</button>
+        <button class="btn ghost" id="logoutBtn" data-action="logout">Выйти</button>
       </div>
     </section>
 

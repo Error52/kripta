@@ -184,9 +184,6 @@ function setupSearch() {
 function setupMoviePage() {
   const registerDialog = document.getElementById('registerDialog');
   const loginDialog = document.getElementById('loginDialog');
-  const openRegister = document.getElementById('openRegister');
-  const openLogin = document.getElementById('openLogin');
-  const logoutBtn = document.getElementById('logoutBtn');
   const registerForm = document.getElementById('registerForm');
   const loginForm = document.getElementById('loginForm');
 
@@ -197,14 +194,21 @@ function setupMoviePage() {
   renderComments();
   setupSearch();
 
-  openRegister?.addEventListener('click', () => registerDialog.showModal());
-  openLogin?.addEventListener('click', () => loginDialog.showModal());
-  document.getElementById('gateRegister')?.addEventListener('click', () => registerDialog.showModal());
-  document.getElementById('gateLogin')?.addEventListener('click', () => loginDialog.showModal());
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('button');
+    if (!button) return;
 
-  logoutBtn?.addEventListener('click', () => {
-    setCurrentUser(null);
-    renderAuthStatus();
+    const dialogId = button.dataset.openDialog;
+    if (dialogId) {
+      const targetDialog = document.getElementById(dialogId);
+      if (targetDialog && !targetDialog.open) targetDialog.showModal();
+      return;
+    }
+
+    if (button.dataset.action === 'logout') {
+      setCurrentUser(null);
+      renderAuthStatus();
+    }
   });
 
   document.getElementById('closeFlag')?.addEventListener('click', () => {
