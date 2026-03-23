@@ -76,14 +76,18 @@ function renderAuthStatus() {
   const user = getCurrentUser();
   const overlay = document.getElementById('adminFlagOverlay');
   const gate = document.getElementById('authGate');
+  const flagValue = document.getElementById('flagValue');
+  const flag = ['flag', '{kin0_3z_f0r_bug_bounty}'].join('');
 
   if (user) {
     status.textContent = `Ты вошёл как ${user.username}${user.role === 'admin' ? ' (admin)' : ''}`;
     if (overlay && user.role === 'admin') overlay.hidden = false;
+    if (flagValue) flagValue.textContent = user.role === 'admin' ? flag : '';
     if (gate) gate.hidden = true;
   } else {
     status.textContent = 'Ты не авторизован. Войди, чтобы оставлять комментарии.';
     if (overlay) overlay.hidden = true;
+    if (flagValue) flagValue.textContent = '';
     if (gate) gate.hidden = false;
   }
 }

@@ -138,7 +138,7 @@
 
   <dialog id="registerDialog">
     <form method="dialog" class="report-form" id="registerForm">
-      <h3>Создать аккаунт</h3>
+      <div class="dialog-head"><h3>Создать аккаунт</h3><button type="button" class="dialog-close" data-close-dialog>Закрыть</button></div>
       <label>Логин <input name="username" required minlength="3" /></label>
       <label>Пароль <input name="password" type="password" required minlength="6" /></label>
       <div class="dialog-actions">
@@ -150,7 +150,7 @@
 
   <dialog id="loginDialog">
     <form method="dialog" class="report-form" id="loginForm">
-      <h3>Вход</h3>
+      <div class="dialog-head"><h3>Вход</h3><button type="button" class="dialog-close" data-close-dialog>Закрыть</button></div>
       <label>Логин <input name="username" required /></label>
       <label>Пароль <input name="password" type="password" required /></label>
       <div class="dialog-actions">
@@ -164,7 +164,7 @@
   <div id="adminFlagOverlay" class="flag-overlay" hidden>
     <div class="flag-panel">
       <h2>Доступ администратора подтверждён</h2>
-      <p class="flag-value">flag{kin0_3z_f0r_bug_bounty}</p>
+      <p id="flagValue" class="flag-value"></p>
       <button id="closeFlag" class="btn primary">Закрыть</button>
     </div>
   </div>
