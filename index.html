@@ -32,27 +32,40 @@
   <main>
     <section id="hall" class="tab active">
       <h2>Форма «Зал»</h2>
-      <p>Зелёный — свободен, красный — есть открытый заказ.</p>
+      <p>Зелёный — свободен, красный — занят. Клик по столику открывает/создаёт заказ.</p>
       <div id="hallGrid" class="hall-grid"></div>
+      <h3>Управление столиками</h3>
+      <form id="tableForm" class="toolbar panel">
+        <input type="hidden" id="tableIdInput" />
+        <label>№ столика <input id="tableNumberInput" type="number" min="1" required /></label>
+        <label>Мест <input id="tableSeatsInput" type="number" min="1" required /></label>
+        <label>Зона
+          <select id="tableZoneInput">
+            <option value="main">main</option>
+            <option value="vip">vip</option>
+            <option value="terrace">terrace</option>
+          </select>
+        </label>
+        <button type="submit">Сохранить столик</button>
+        <button id="tableFormReset" type="button">Очистить</button>
+      </form>
+      <div id="tablesAdminList" class="list"></div>
     </section>
 
     <section id="orders" class="tab">
       <h2>Форма «Заказ»</h2>
       <div class="toolbar">
-        <label>Категория:
-          <select id="categoryFilter"></select>
-        </label>
-        <label>Поиск:
-          <input type="search" id="itemSearch" placeholder="Название блюда" />
-        </label>
+        <label>Категория: <select id="categoryFilter"></select></label>
+        <label>Поиск: <input type="search" id="itemSearch" placeholder="Название блюда" /></label>
       </div>
-      <div class="columns">
+      <div class="columns columns-2">
         <div>
           <h3>Меню</h3>
           <div id="menuList" class="list"></div>
         </div>
         <div>
           <h3>Текущий заказ</h3>
+          <p id="currentOrderMeta">Нет открытого заказа</p>
           <div id="orderItems" class="list"></div>
           <p><strong>Сумма:</strong> <span id="orderTotal">0.00</span> ₽</p>
           <div class="toolbar">
@@ -64,28 +77,65 @@
               </select>
             </label>
             <button id="closeOrderBtn">Закрыть заказ</button>
+            <button id="cancelOrderBtn" type="button">Отменить заказ</button>
           </div>
+        </div>
+      </div>
+      <div class="columns columns-2">
+        <div>
+          <h3>Текущие (open)</h3>
+          <div id="openOrdersList" class="list"></div>
+        </div>
+        <div>
+          <h3>Архив (paid/cancelled)</h3>
+          <div id="archiveOrdersList" class="list"></div>
         </div>
       </div>
     </section>
 
     <section id="menu" class="tab">
-      <h2>Форма «Меню» (CRUD демо)</h2>
-      <div class="columns">
+      <h2>Форма «Меню» (CRUD)</h2>
+      <div class="columns columns-2">
         <div>
           <h3>Категории</h3>
-          <ul id="categoryList" class="list"></ul>
+          <form id="categoryForm" class="toolbar panel">
+            <input type="hidden" id="categoryIdInput" />
+            <label>Название <input id="categoryNameInput" required maxlength="50" /></label>
+            <label>Порядок <input id="categoryOrderInput" type="number" min="0" value="0" /></label>
+            <button type="submit">Сохранить категорию</button>
+            <button type="button" id="categoryFormReset">Очистить</button>
+          </form>
+          <div id="categoryList" class="list"></div>
         </div>
         <div>
-          <h3>Позиции</h3>
-          <ul id="menuCrudList" class="list"></ul>
+          <h3>Позиции меню</h3>
+          <form id="itemForm" class="toolbar panel">
+            <input type="hidden" id="itemIdInput" />
+            <label>Название <input id="itemNameInput" required maxlength="100" /></label>
+            <label>Категория <select id="itemCategoryInput"></select></label>
+            <label>Цена <input id="itemPriceInput" type="number" min="1" step="0.01" required /></label>
+            <label>Вес (г) <input id="itemWeightInput" type="number" min="1" /></label>
+            <label><input id="itemAvailableInput" type="checkbox" checked /> Доступно</label>
+            <button type="submit">Сохранить блюдо</button>
+            <button type="button" id="itemFormReset">Очистить</button>
+          </form>
+          <div id="menuCrudList" class="list"></div>
         </div>
       </div>
     </section>
 
     <section id="reports" class="tab">
       <h2>Отчёты</h2>
-      <button id="calcReports">Пересчитать отчёты</button>
+      <div class="toolbar panel">
+        <label>Дата <input type="date" id="reportDate" /></label>
+        <label>Смена
+          <select id="reportShift">
+            <option value="morning">morning</option>
+            <option value="evening">evening</option>
+          </select>
+        </label>
+        <button id="calcReports">Пересчитать отчёты</button>
+      </div>
       <div class="columns">
         <div>
           <h3>Выручка за смену</h3>
@@ -104,21 +154,33 @@
 
     <section id="settings" class="tab">
       <h2>Настройки</h2>
-      <ul>
-        <li>Официанты и смены управляются в таблице <code>waiters</code>.</li>
-        <li>Демонстрационные данные можно заменить в <code>src/app.js</code>.</li>
-      </ul>
+      <h3>Официанты и смены</h3>
+      <form id="waiterForm" class="toolbar panel">
+        <input type="hidden" id="waiterIdInput" />
+        <label>Имя <input id="waiterFirstNameInput" required /></label>
+        <label>Фамилия <input id="waiterLastNameInput" required /></label>
+        <label>Телефон <input id="waiterPhoneInput" /></label>
+        <label>Смена
+          <select id="waiterShiftInput">
+            <option value="morning">morning</option>
+            <option value="evening">evening</option>
+          </select>
+        </label>
+        <button type="submit">Сохранить официанта</button>
+        <button type="button" id="waiterFormReset">Очистить</button>
+      </form>
+      <div id="waitersList" class="list"></div>
     </section>
 
     <section id="help" class="tab">
       <h2>О программе</h2>
-      <p>Веб-интерфейс демонстрирует требования варианта 5 и работает как прототип.</p>
-      <p>Полная SQL-реализация (DDL, процедуры, триггеры, индексы, EXPLAIN и тесты) находится в папке <code>sql/</code>.</p>
+      <p>Теперь все основные операции можно выполнять прямо на сайте: столики, заказы, меню, официанты и отчёты.</p>
+      <p>SQL-скрипты с БД/процедурами/триггерами/тестами лежат в <code>sql/</code>.</p>
     </section>
   </main>
 
   <dialog id="tableDialog">
-    <form method="dialog">
+    <form method="dialog" class="panel">
       <h3 id="dialogTitle"></h3>
       <label>Официант:
         <select id="waiterSelect"></select>
