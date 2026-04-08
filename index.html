@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cafe Orders — Система учёта заказов</title>
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Cafe Orders</h1>
+    <p>Система учёта заказов кафе</p>
+  </header>
+
+  <nav class="top-menu">
+    <details>
+      <summary>Файл</summary>
+      <ul>
+        <li><button id="exportCsv">Экспорт в CSV</button></li>
+        <li><button id="printReceipt">Печать чека</button></li>
+        <li><button id="exitApp">Выход</button></li>
+      </ul>
+    </details>
+    <button data-tab="hall" class="tab-btn active">Зал</button>
+    <button data-tab="orders" class="tab-btn">Заказы</button>
+    <button data-tab="menu" class="tab-btn">Меню</button>
+    <button data-tab="reports" class="tab-btn">Отчёты</button>
+    <button data-tab="settings" class="tab-btn">Настройки</button>
+    <button data-tab="help" class="tab-btn">Справка</button>
+  </nav>
+
+  <main>
+    <section id="hall" class="tab active">
+      <h2>Форма «Зал»</h2>
+      <p>Зелёный — свободен, красный — есть открытый заказ.</p>
+      <div id="hallGrid" class="hall-grid"></div>
+    </section>
+
+    <section id="orders" class="tab">
+      <h2>Форма «Заказ»</h2>
+      <div class="toolbar">
+        <label>Категория:
+          <select id="categoryFilter"></select>
+        </label>
+        <label>Поиск:
+          <input type="search" id="itemSearch" placeholder="Название блюда" />
+        </label>
+      </div>
+      <div class="columns">
+        <div>
+          <h3>Меню</h3>
+          <div id="menuList" class="list"></div>
+        </div>
+        <div>
+          <h3>Текущий заказ</h3>
+          <div id="orderItems" class="list"></div>
+          <p><strong>Сумма:</strong> <span id="orderTotal">0.00</span> ₽</p>
+          <div class="toolbar">
+            <label>Оплата:
+              <select id="paymentMethod">
+                <option value="cash">Наличные</option>
+                <option value="card">Карта</option>
+                <option value="online">Онлайн</option>
+              </select>
+            </label>
+            <button id="closeOrderBtn">Закрыть заказ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="tab">
+      <h2>Форма «Меню» (CRUD демо)</h2>
+      <div class="columns">
+        <div>
+          <h3>Категории</h3>
+          <ul id="categoryList" class="list"></ul>
+        </div>
+        <div>
+          <h3>Позиции</h3>
+          <ul id="menuCrudList" class="list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="reports" class="tab">
+      <h2>Отчёты</h2>
+      <button id="calcReports">Пересчитать отчёты</button>
+      <div class="columns">
+        <div>
+          <h3>Выручка за смену</h3>
+          <pre id="shiftReport"></pre>
+        </div>
+        <div>
+          <h3>Популярные блюда (ТОП-10)</h3>
+          <pre id="popularReport"></pre>
+        </div>
+        <div>
+          <h3>Средний чек</h3>
+          <pre id="avgReport"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="settings" class="tab">
+      <h2>Настройки</h2>
+      <ul>
+        <li>Официанты и смены управляются в таблице <code>waiters</code>.</li>
+        <li>Демонстрационные данные можно заменить в <code>src/app.js</code>.</li>
+      </ul>
+    </section>
+
+    <section id="help" class="tab">
+      <h2>О программе</h2>
+      <p>Веб-интерфейс демонстрирует требования варианта 5 и работает как прототип.</p>
+      <p>Полная SQL-реализация (DDL, процедуры, триггеры, индексы, EXPLAIN и тесты) находится в папке <code>sql/</code>.</p>
+    </section>
+  </main>
+
+  <dialog id="tableDialog">
+    <form method="dialog">
+      <h3 id="dialogTitle"></h3>
+      <label>Официант:
+        <select id="waiterSelect"></select>
+      </label>
+      <menu>
+        <button value="cancel">Отмена</button>
+        <button id="openOrderConfirm" value="default">Открыть/Перейти</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="src/app.js"></script>
+</body>
+</html>
