@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>НейроКоффе — Система учёта заказов</title>
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>НейроКоффе</h1>
+    <p>Система учёта заказов кафе «НейроКоффе»</p>
+  </header>
+
+  <nav class="top-menu">
+    <details>
+      <summary>Файл</summary>
+      <ul>
+        <li><button id="exportCsv">Экспорт в CSV</button></li>
+        <li><button id="printReceipt">Печать чека</button></li>
+        <li><button id="exitApp">Выход</button></li>
+      </ul>
+    </details>
+    <button data-tab="hall" class="tab-btn active">Зал</button>
+    <button data-tab="orders" class="tab-btn">Заказы</button>
+    <button data-tab="menu" class="tab-btn">Меню</button>
+    <button data-tab="reports" class="tab-btn">Отчёты</button>
+    <button data-tab="settings" class="tab-btn">Настройки</button>
+    <button data-tab="help" class="tab-btn">Справка</button>
+  </nav>
+
+  <main>
+    <section id="hall" class="tab active">
+      <h2>Форма «Зал»</h2>
+      <p>Зелёный — свободен, красный — занят. Клик по столику открывает/создаёт заказ.</p>
+      <div id="hallGrid" class="hall-grid"></div>
+      <h3>Управление столиками</h3>
+      <form id="tableForm" class="toolbar panel">
+        <input type="hidden" id="tableIdInput" />
+        <label>№ столика <input id="tableNumberInput" type="number" min="1" required /></label>
+        <label>Мест <input id="tableSeatsInput" type="number" min="1" required /></label>
+        <label>Зона
+          <select id="tableZoneInput">
+            <option value="main">main</option>
+            <option value="vip">vip</option>
+            <option value="terrace">terrace</option>
+          </select>
+        </label>
+        <button type="submit">Сохранить столик</button>
+        <button id="tableFormReset" type="button">Очистить</button>
+      </form>
+      <div id="tablesAdminList" class="list"></div>
+    </section>
+
+    <section id="orders" class="tab">
+      <h2>Форма «Заказ»</h2>
+      <div class="toolbar">
+        <label>Категория: <select id="categoryFilter"></select></label>
+        <label>Поиск: <input type="search" id="itemSearch" placeholder="Название блюда" /></label>
+      </div>
+      <div class="columns columns-2">
+        <div>
+          <h3>Меню</h3>
+          <div id="menuList" class="list"></div>
+        </div>
+        <div>
+          <h3>Текущий заказ</h3>
+          <p id="currentOrderMeta">Нет открытого заказа</p>
+          <div id="orderItems" class="list"></div>
+          <p><strong>Сумма:</strong> <span id="orderTotal">0.00</span> ₽</p>
+          <div class="toolbar">
+            <label>Оплата:
+              <select id="paymentMethod">
+                <option value="cash">Наличные</option>
+                <option value="card">Карта</option>
+                <option value="online">Онлайн</option>
+              </select>
+            </label>
+            <button id="closeOrderBtn">Закрыть заказ</button>
+            <button id="cancelOrderBtn" type="button">Отменить заказ</button>
+          </div>
+        </div>
+      </div>
+      <div class="columns columns-2">
+        <div>
+          <h3>Текущие (open)</h3>
+          <div id="openOrdersList" class="list"></div>
+        </div>
+        <div>
+          <h3>Архив (paid/cancelled)</h3>
+          <div id="archiveOrdersList" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="tab">
+      <h2>Форма «Меню» (CRUD)</h2>
+      <div class="columns columns-2">
+        <div>
+          <h3>Категории</h3>
+          <form id="categoryForm" class="toolbar panel">
+            <input type="hidden" id="categoryIdInput" />
+            <label>Название <input id="categoryNameInput" required maxlength="50" /></label>
+            <label>Порядок <input id="categoryOrderInput" type="number" min="0" value="0" /></label>
+            <button type="submit">Сохранить категорию</button>
+            <button type="button" id="categoryFormReset">Очистить</button>
+          </form>
+          <div id="categoryList" class="list"></div>
+        </div>
+        <div>
+          <h3>Позиции меню</h3>
+          <form id="itemForm" class="toolbar panel">
+            <input type="hidden" id="itemIdInput" />
+            <label>Название <input id="itemNameInput" required maxlength="100" /></label>
+            <label>Категория <select id="itemCategoryInput"></select></label>
+            <label>Цена <input id="itemPriceInput" type="number" min="1" step="0.01" required /></label>
+            <label>Вес (г) <input id="itemWeightInput" type="number" min="1" /></label>
+            <label><input id="itemAvailableInput" type="checkbox" checked /> Доступно</label>
+            <button type="submit">Сохранить блюдо</button>
+            <button type="button" id="itemFormReset">Очистить</button>
+          </form>
+          <div id="menuCrudList" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reports" class="tab">
+      <h2>Отчёты</h2>
+      <div class="toolbar panel">
+        <label>Дата <input type="date" id="reportDate" /></label>
+        <label>Смена
+          <select id="reportShift">
+            <option value="morning">morning</option>
+            <option value="evening">evening</option>
+          </select>
+        </label>
+        <button id="calcReports">Пересчитать отчёты</button>
+      </div>
+      <div class="columns">
+        <div>
+          <h3>Выручка за смену</h3>
+          <pre id="shiftReport"></pre>
+        </div>
+        <div>
+          <h3>Популярные блюда (ТОП-10)</h3>
+          <pre id="popularReport"></pre>
+        </div>
+        <div>
+          <h3>Средний чек</h3>
+          <pre id="avgReport"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="settings" class="tab">
+      <h2>Настройки</h2>
+      <h3>Резервные копии и восстановление БД</h3>
+      <div class="panel">
+        <div class="toolbar">
+          <button id="backupFullBtn" type="button">Создать полный backup</button>
+          <button id="backupBinlogBtn" type="button">Скопировать binlog</button>
+          <button id="backupMonthlyBtn" type="button">Создать месячный архив</button>
+        </div>
+        <div class="toolbar">
+          <label>Файл backup (.sql/.sql.gz): <input id="restoreFileInput" type="text" placeholder="/var/backups/cafe/full/cafe_full_YYYYMMDD_HHMM.sql.gz" /></label>
+          <button id="restoreBackupBtn" type="button">Восстановить БД из backup</button>
+        </div>
+        <p class="hint">Для прод-режима подключите backend endpoint'ы <code>/api/backup/*</code> и <code>/api/restore</code>. Сейчас работает demo-режим с журналом операций.</p>
+        <pre id="backupLog"></pre>
+      </div>
+
+      <h3>Официанты и смены</h3>
+      <form id="waiterForm" class="toolbar panel">
+        <input type="hidden" id="waiterIdInput" />
+        <label>Имя <input id="waiterFirstNameInput" required /></label>
+        <label>Фамилия <input id="waiterLastNameInput" required /></label>
+        <label>Телефон <input id="waiterPhoneInput" /></label>
+        <label>Смена
+          <select id="waiterShiftInput">
+            <option value="morning">morning</option>
+            <option value="evening">evening</option>
+          </select>
+        </label>
+        <button type="submit">Сохранить официанта</button>
+        <button type="button" id="waiterFormReset">Очистить</button>
+      </form>
+      <div id="waitersList" class="list"></div>
+    </section>
+
+    <section id="help" class="tab">
+      <h2>О программе</h2>
+      <p>Теперь все основные операции можно выполнять прямо на сайте: столики, заказы, меню, официанты и отчёты.</p>
+      <p>SQL-скрипты с БД/процедурами/триггерами/тестами лежат в <code>sql/</code>.</p>
+    </section>
+  </main>
+
+  <dialog id="tableDialog">
+    <form method="dialog" class="panel">
+      <h3 id="dialogTitle"></h3>
+      <label>Официант:
+        <select id="waiterSelect"></select>
+      </label>
+      <menu>
+        <button value="cancel">Отмена</button>
+        <button id="openOrderConfirm" value="default">Открыть/Перейти</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="src/app.js"></script>
+</body>
+</html>
