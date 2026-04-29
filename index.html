@@ -154,6 +154,21 @@
 
     <section id="settings" class="tab">
       <h2>Настройки</h2>
+      <h3>Резервные копии и восстановление БД</h3>
+      <div class="panel">
+        <div class="toolbar">
+          <button id="backupFullBtn" type="button">Создать полный backup</button>
+          <button id="backupBinlogBtn" type="button">Скопировать binlog</button>
+          <button id="backupMonthlyBtn" type="button">Создать месячный архив</button>
+        </div>
+        <div class="toolbar">
+          <label>Файл backup (.sql/.sql.gz): <input id="restoreFileInput" type="text" placeholder="/var/backups/cafe/full/cafe_full_YYYYMMDD_HHMM.sql.gz" /></label>
+          <button id="restoreBackupBtn" type="button">Восстановить БД из backup</button>
+        </div>
+        <p class="hint">Для прод-режима подключите backend endpoint'ы <code>/api/backup/*</code> и <code>/api/restore</code>. Сейчас работает demo-режим с журналом операций.</p>
+        <pre id="backupLog"></pre>
+      </div>
+
       <h3>Официанты и смены</h3>
       <form id="waiterForm" class="toolbar panel">
         <input type="hidden" id="waiterIdInput" />

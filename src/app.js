@@ -642,6 +642,59 @@ function printReceipt() {
   w.print();
 }
 
+
+function appendBackupLog(message) {
+  const log = el('backupLog');
+  const line = `[${new Date().toLocaleString('ru-RU')}] ${message}`;
+  log.textContent = `${line}
+${log.textContent || ''}`.trim();
+}
+
+async function postBackupAction(url, payload) {
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload || {})
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json().catch(() => ({}));
+    return { ok: true, data };
+  } catch (error) {
+    return { ok: false, error: String(error) };
+  }
+}
+
+async function createFullBackup() {
+  appendBackupLog('Запуск полного backup...');
+  const result = await postBackupAction('/api/backup/full');
+  if (result.ok) appendBackupLog(`Готово: ${result.data.message || 'полный backup создан'}`);
+  else appendBackupLog(`Demo: выполните scripts/cafe_backup.sh full. Ошибка API: ${result.error}`);
+}
+
+async function copyBinlogBackup() {
+  appendBackupLog('Запуск копирования binlog...');
+  const result = await postBackupAction('/api/backup/binlog');
+  if (result.ok) appendBackupLog(`Готово: ${result.data.message || 'binlog скопирован'}`);
+  else appendBackupLog(`Demo: выполните scripts/cafe_backup.sh binlog. Ошибка API: ${result.error}`);
+}
+
+async function createMonthlyBackup() {
+  appendBackupLog('Запуск месячного архива...');
+  const result = await postBackupAction('/api/backup/monthly');
+  if (result.ok) appendBackupLog(`Готово: ${result.data.message || 'месячный архив создан'}`);
+  else appendBackupLog(`Demo: выполните scripts/cafe_backup.sh monthly. Ошибка API: ${result.error}`);
+}
+
+async function restoreFromBackup() {
+  const filePath = el('restoreFileInput').value.trim();
+  if (!filePath) return appendBackupLog('Укажите путь до backup файла.');
+  appendBackupLog(`Запуск восстановления из ${filePath} ...`);
+  const result = await postBackupAction('/api/restore', { file_path: filePath });
+  if (result.ok) appendBackupLog(`Готово: ${result.data.message || 'восстановление завершено'}`);
+  else appendBackupLog(`Demo: выполните mysql < ${filePath}. Ошибка API: ${result.error}`);
+}
+
 function renderAll() {
   renderHall();
   renderMenuFilters();
@@ -662,6 +715,10 @@ function bindMainEvents() {
   el('exportCsv').addEventListener('click', exportCsv);
   el('printReceipt').addEventListener('click', printReceipt);
   el('exitApp').addEventListener('click', () => alert('Для выхода закройте вкладку браузера.'));
+  el('backupFullBtn').addEventListener('click', createFullBackup);
+  el('backupBinlogBtn').addEventListener('click', copyBinlogBackup);
+  el('backupMonthlyBtn').addEventListener('click', createMonthlyBackup);
+  el('restoreBackupBtn').addEventListener('click', restoreFromBackup);
   document.body.addEventListener('click', handleGlobalClicks);
 }
 
