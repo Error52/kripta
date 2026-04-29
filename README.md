@@ -22,6 +22,10 @@
 - `sql/03_triggers.sql` — триггеры.
 - `sql/04_analytics_explain.sql` — аналитика и explain.
 - `sql/05_test_cases.sql` — тестовый прогон.
+- `sql/06_audit_and_security.sql` — аудит-триггеры, представления, пользователь аудитора.
+- `scripts/cafe_backup.sh` — автоматизация backup 24/7.
+- `scripts/cafe_verify.sh` — ежедневная проверка восстановляемости.
+- `docs/cafe_audit_backup_report.md` — письменный отчёт по аудиту/backup/recovery.
 
 ## Запуск сайта
 
